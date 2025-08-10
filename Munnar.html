@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Munnar Spices & Etc. — The Hills of Munnar</title>
+
+  <!--
+    Color palette (from your upload):
+      deepGreen1:  #3F6626
+      deepGreen2:  #2F4012
+      paleGreen:   #EEF4E7
+      vibrantGreen: #A6C63A
+      softGreen:   #C8E084
+
+      golds: #E8D07A, #F0DF8A, #D9B84A, #CAA93A, #B88A22
+  -->
+
+  <style>
+    :root{
+      --deep-green-1: #3F6626;
+      --deep-green-2: #2F4012;
+      --pale-green: #EEF4E7;
+      --vibrant-green: #A6C63A;
+      --soft-green: #C8E084;
+
+      --gold-1: #E8D07A;
+      --gold-2: #D9B84A;
+      --accent-dark: #2b2b2b;
+
+      --page-padding: 20px;
+      --radius: 12px;
+      --card-shadow: 0 8px 20px rgba(18,18,18,0.18);
+    }
+
+    /* Page background */
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--accent-dark);
+      background: linear-gradient(
+            rgba(10,20,10,0.42),
+            rgba(10,10,10,0.42)
+          ),
+          url('hills.jpeg') center/cover no-repeat fixed;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Site container with translucent card feel */
+    .wrap {
+      max-width: 1200px;
+      margin: 36px auto;
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,248,240,0.93));
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(5,5,5,0.35);
+      backdrop-filter: blur(4px);
+    }
+
+    header {
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      width:96px;
+      height:96px;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--soft-green), var(--gold-1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: var(--card-shadow);
+      flex-shrink:0;
+      border: 3px solid rgba(255,255,255,0.6);
+    }
+    .logo h1{
+      font-size:22px;
+      color: #fff;
+      margin:0;
+      text-align:center;
+      line-height:1.05;
+      letter-spacing:0.4px;
+    }
+
+    .title-block {
+      flex:1;
+    }
+    .title-block h2{
+      margin:0;
+      font-size:26px;
+      color: var(--deep-green-2);
+    }
+    .title-block p{
+      margin:6px 0 0;
+      color: #333;
+      opacity:0.85;
+    }
+
+    /* Two-column layout: left main content, right contact/cta */
+    .layout {
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    /* Main area */
+    .main {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,250,0.9));
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(40,40,40,0.06);
+    }
+
+    .section-title {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .section-title h3{
+      margin:0;
+      color: var(--deep-green-1);
+      font-size:20px;
+    }
+    .section-desc{
+      color:#444;
+      margin-bottom:18px;
+    }
+
+    /* Grid of spices */
+    .spice-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+      gap:16px;
+    }
+
+    .spice-card{
+      background: linear-gradient(180deg, #fff, #fff8f5);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform .18s ease, box-shadow .18s ease;
+      border: 1px solid rgba(0,0,0,0.04);
+      display:flex;
+      flex-direction:column;
+    }
+    .spice-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 22px 44px rgba(15,15,15,0.14);
+    }
+
+    .spice-media{
+      height:140px;
+      background: #f6f2ea;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .spice-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .spice-body{
+      padding:12px 14px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .spice-name{
+      font-weight:700;
+      color: var(--deep-green-2);
+      margin:0 0 6px;
+      font-size:16px;
+    }
+    .spice-desc{
+      margin:0;
+      color:#444;
+      font-size:13px;
+      flex:1;
+    }
+
+    .spice-meta{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .price{
+      font-weight:700;
+      color: var(--vibrant-green);
+    }
+    .badge{
+      font-size:12px;
+      background: linear-gradient(90deg, var(--gold-2), var(--gold-1));
+      color:#2b2b2b;
+      padding:6px 8px;
+      border-radius:8px;
+      box-shadow: 0 4px 10px rgba(220,180,60,0.12);
+    }
+
+    /* Right column - contact and history compact */
+    .aside {
+      padding:16px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(245,252,238,0.9), #fff);
+      box-shadow: var(--card-shadow);
+      position:sticky;
+      top:36px;
+      height: fit-content;
+    }
+
+    .contact-list p{ margin:8px 0; color:#222; }
+    .contact-list strong{ color:var(--deep-green-2); }
+
+    .cta {
+      margin-top:12px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      padding:10px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:700;
+      display:inline-block;
+    }
+    .btn-primary{
+      background: var(--vibrant-green);
+      color:#fff;
+      box-shadow: 0 8px 20px rgba(90,130,40,0.16);
+    }
+    .btn-outline{
+      border:2px solid var(--deep-green-1);
+      color:var(--deep-green-1);
+      background:transparent;
+    }
+
+    footer{
+      margin-top:20px;
+      text-align:center;
+      color:#444;
+      font-size:13px;
+    }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .layout{ grid-template-columns: 1fr; }
+      .aside{ position:relative; top:auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <header>
+      <div class="logo" aria-hidden="true">
+        <h1>Munnar<br/>Spices</h1>
+      </div>
+
+      <div class="title-block">
+        <h2>Munnar Spices & Etc.</h2>
+        <p>Authentic spices from the misty hills of Munnar — cardamom, pepper, cinnamon and more.</p>
+      </div>
+    </header>
+
+    <div class="layout">
+
+      <!-- MAIN -->
+      <main class="main" role="main">
+
+        <section aria-labelledby="history" style="margin-bottom:18px;">
+          <div class="section-title">
+            <h3 id="history">History — Spices of the Munnar Hills</h3>
+          </div>
+          <p class="section-desc">
+            Nestled in the Western Ghats, the hills of Munnar have been a treasure for spice cultivation for
+            centuries. Cool climate, rich soil and misty air combine to produce aromatic cardamom, pepper,
+            cinnamon and other premium spices. Traders from Arab lands and Europe visited Kerala for these
+            prized products, making Munnar part of the ancient spice routes. Today, Munnar’s plantations
+            continue this legacy with organic, export-quality produce — preserving traditional aroma and taste.
+          </p>
+        </section>
+
+        <section aria-labelledby="products">
+          <div class="section-title">
+            <h3 id="products">Our Spices</h3>
+          </div>
+
+          <div class="spice-grid">
+
+            <!-- Each card: change images/* file names to your actual images or full URLs -->
+            <article class="spice-card" aria-labelledby="s-elaichi">
+              <div class="spice-media">
+                <img src="images/elaichi.jpg" alt="Elaichi (Cardamom) – green cardamom pods" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-elaichi" class="spice-name">Elaichi (Cardamom)</h4>
+                <p class="spice-desc">The Queen of Spices — aromatic green pods grown in shaded Munnar slopes. Great for sweets, teas and biryanis.</p>
+                <div class="spice-meta">
+                  <div class="badge">Premium</div>
+                  <div class="price">₹700 / 100g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-lavang">
+              <div class="spice-media">
+                <img src="images/lavang.jpg" alt="Lavang (Cloves) — closeup" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-lavang" class="spice-name">Lavang (Cloves)</h4>
+                <p class="spice-desc">Intense, warm spice used in masalas and traditional remedies. Small but full of flavor.</p>
+                <div class="spice-meta">
+                  <div class="badge">Aromatic</div>
+                  <div class="price">₹900 / 200g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-dalchini">
+              <div class="spice-media">
+                <img src="images/dalchini.jpg" alt="Dalchini (Cinnamon) sticks" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-dalchini" class="spice-name">Dalchini (Cinnamon)</h4>
+                <p class="spice-desc">Sweet and warm bark — perfect for desserts, stews and spiced tea.</p>
+                <div class="spice-meta">
+                  <div class="badge">Fragrant</div>
+                  <div class="price">₹950 / 250g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-bstar">
+              <div class="spice-media">
+                <img src="images/star-anise.jpg" alt="Biriyani Star (Star Anise)" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-bstar" class="spice-name">Biriyani Star (Star Anise)</h4>
+                <p class="spice-desc">Star-shaped spice with sweet-licorice notes. A biriyani kitchen favourite.</p>
+                <div class="spice-meta">
+                  <div class="badge">Exotic</div>
+                  <div class="price">₹450 / 150g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-bflower">
+              <div class="spice-media">
+                <img src="images/biriyani-flower.jpg" alt="Biriyani Flower spice" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-bflower" class="spice-name">Biriyani Flower</h4>
+                <p class="spice-desc">Adds a unique fragrance to rice dishes; used in traditional biriyani blends.</p>
+                <div class="spice-meta">
+                  <div class="badge">Traditional</div>
+                  <div class="price">₹320 / 100g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-bleaf">
+              <div class="spice-media">
+                <img src="images/bay-leaf.jpg" alt="Biriyani Leaf (Bay Leaf)" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-bleaf" class="spice-name">Biriyani Leaf (Bay Leaf)</h4>
+                <p class="spice-desc">Earthy, subtle leaf used in curries and rice to build rounded flavour.</p>
+                <div class="spice-meta">
+                  <div class="badge">Everyday</div>
+                  <div class="price">₹150 / 50g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-jadhikai">
+              <div class="spice-media">
+                <img src="images/nutmeg.jpg" alt="Jadhikai (Nutmeg)" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-jadhikai" class="spice-name">Jadhikai (Nutmeg)</h4>
+                <p class="spice-desc">Warm, nutty spice used for desserts and traditional remedies.</p>
+                <div class="spice-meta">
+                  <div class="badge">Warm</div>
+                  <div class="price">₹600 / 100g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-bpepper">
+              <div class="spice-media">
+                <img src="images/black-pepper.jpg" alt="Black Peppercorns" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-bpepper" class="spice-name">Black Pepper</h4>
+                <p class="spice-desc">The King of Spices — pungent and versatile, grown widely in Kerala.</p>
+                <div class="spice-meta">
+                  <div class="badge">Popular</div>
+                  <div class="price">₹300 / 200g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-wpepper">
+              <div class="spice-media">
+                <img src="images/white-pepper.jpg" alt="White Pepper" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-wpepper" class="spice-name">White Pepper</h4>
+                <p class="spice-desc">Milder than black pepper, ideal for light sauces and soups.</p>
+                <div class="spice-meta">
+                  <div class="badge">Milder</div>
+                  <div class="price">₹350 / 200g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-belaichi">
+              <div class="spice-media">
+                <img src="images/black-elaichi.jpg" alt="Black Elaichi (Big Cardamom)" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-belaichi" class="spice-name">Black Elaichi (Big Cardamom)</h4>
+                <p class="spice-desc">Smoky, strong variety used to enhance curries and slow-cooked foods.</p>
+                <div class="spice-meta">
+                  <div class="badge">Robust</div>
+                  <div class="price">₹450 / 100g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-honey">
+              <div class="spice-media">
+                <img src="images/honey.jpg" alt="Honey from the hills of Kerala" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-honey" class="spice-name">Honey</h4>
+                <p class="spice-desc">Pure golden honey collected from the wildflowers of the Western Ghats.</p>
+                <div class="spice-meta">
+                  <div class="badge">Pure</div>
+                  <div class="price">₹450 / 250g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-teacoffee">
+              <div class="spice-media">
+                <img src="images/tea-coffee.jpg" alt="Tea & Coffee — Munnar produce" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-teacoffee" class="spice-name">Tea & Coffee</h4>
+                <p class="spice-desc">Munnar’s pride — rich aroma teas and well-rounded coffee beans from local estates.</p>
+                <div class="spice-meta">
+                  <div class="badge">Estate Fresh</div>
+                  <div class="price">₹350 / 250g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-greentea">
+              <div class="spice-media">
+                <img src="images/green-tea.jpg" alt="Green Tea leaves" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-greentea" class="spice-name">Green Tea</h4>
+                <p class="spice-desc">Fresh, antioxidant-rich leaves for a healthy, refreshing brew.</p>
+                <div class="spice-meta">
+                  <div class="badge">Healthy</div>
+                  <div class="price">₹420 / 200g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-redrice">
+              <div class="spice-media">
+                <img src="images/red-rice.jpg" alt="Red Rice" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-redrice" class="spice-name">Red Rice</h4>
+                <p class="spice-desc">Nutritious red rice grown in Kerala paddies, high in fibre and flavour.</p>
+                <div class="spice-meta">
+                  <div class="badge">Nutritious</div>
+                  <div class="price">₹120 / 500g</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="spice-card" aria-labelledby="s-mungilrice">
+              <div class="spice-media">
+                <img src="images/mungil-rice.jpg" alt="Mungil Rice" />
+              </div>
+              <div class="spice-body">
+                <h4 id="s-mungilrice" class="spice-name">Mungil Rice</h4>
+                <p class="spice-desc">A traditional rice variety prized for its health benefits and unique texture.</p>
+                <div class="spice-meta">
+                  <div class="badge">Heirloom</div>
+                  <div class="price">₹180 / 500g</div>
+                </div>
+              </div>
+            </article>
+
+          </div><!-- /.spice-grid -->
+        </section>
+
+      </main>
+
+      <!-- ASIDE -->
+      <aside class="aside" aria-labelledby="contact">
+        <div id="contact" class="section-title" style="margin-bottom:6px;">
+          <h3>Contact & Visit</h3>
+        </div>
+
+        <div class="contact-list">
+          <!-- Replace with your real contact info -->
+          <p><strong>Address:</strong><br/> Hillside Market, Munnar, Kerala — 685612</p>
+          <p><strong>Phone:</strong><br/> +91 98765 43210</p>
+          <p><strong>Email:</strong><br/> info@munnarspices.com</p>
+          <p><strong>Website:</strong><br/> www.munnarspices.com</p>
+        </div>
+
+        <div class="cta">
+          <a class="btn btn-primary" href="#" title="Get directions">📍 Get Directions</a>
+          <a class="btn btn-outline" href="#" title="Contact on WhatsApp">💬 WhatsApp</a>
+        </div>
+
+        <hr style="margin:14px 0; border:none; height:1px; background:linear-gradient(90deg,transparent,#eee,transparent);">
+
+        <div>
+          <h4 style="margin:0 0 8px;color:var(--deep-green-1)">Opening Hours</h4>
+          <p style="margin:0 0 8px;color:#333">Mon – Sat: 9:00 AM – 7:00 PM<br/>Sun: 9:30 AM – 4:00 PM</p>
+        </div>
+
+        <div style="margin-top:12px; font-size:13px; color:#444">
+          <strong>Note:</strong> Images above are placeholders. Replace files in the <code>images/</code> folder with your pictures:
+          <ul style="margin:8px 0 0 18px; padding:0; color:#333">
+            <li><code>images/hills-of-munnar.jpg</code> — page background</li>
+            <li><code>images/elaichi.jpg</code>, <code>images/lavang.jpg</code>, etc. — spice images</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div> <!-- /.layout -->
+
+    <footer>
+      &copy; <strong>Munnar Spices & Etc.</strong> — Pure spices from the hills of Kerala · All rights reserved.
+    </footer>
+
+  </div> <!-- /.wrap -->
+
+</body>
+</html>
